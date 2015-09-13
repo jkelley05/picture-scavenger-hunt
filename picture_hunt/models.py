@@ -34,7 +34,7 @@ class User(db.Model):
 
 
 
-class Picture(db.Model):
+class Media(db.Model):
     
     id = db.Column(db.Integer, primary_key = True)
     
@@ -42,8 +42,9 @@ class Picture(db.Model):
      
     team = db.Column(db.String(128))
     task = db.Column(db.String(128))
+    type_ = db.Column(db.String(128))
     
-    media = db.Column(db.String(1028)) # url or path  
+    uri = db.Column(db.String(1028)) # url or path  
     
     
 class Team(db.Model):

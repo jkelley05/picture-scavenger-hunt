@@ -1,5 +1,6 @@
 from picture_hunt import config
 from picture_hunt import app, db, lm
+from picture_hunt.models import Picture
 
 from flask import render_template, flash, redirect, session, url_for, request, g, Response, jsonify
 
