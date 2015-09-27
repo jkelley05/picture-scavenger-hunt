@@ -1,0 +1,20 @@
+{% macro render_field(field, class='') %}
+
+<div class="form-group">
+    <label class="control-label col-lg-2" for="{{ field.id }}"> {{ field.label }}</label>
+    <div class="col-lg-10">
+        
+        {% if field.type == "BooleanField" %}
+            {{ field }}
+        {% else %}
+            {{ field(class_="form-control") }}
+        {% endif %}
+        {% for error in field.errors %}
+            <span class="help-inline">{{ error }}</span>
+        {% endfor %} 
+    </div> 
+</div> <!-- /.control-group -->
+
+{% endmacro %}
+
+

@@ -1,0 +1,93 @@
+
+{# Set the class for the body tag #}
+{% set body_class = request.endpoint %}
+
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Picture Scavenger Hunt</title>
+
+        <!-- CSS -->
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='bootstrap/css/bootstrap.min.css') }}" />
+        
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='picture_hunt.css') }}" />
+
+        {% block extra_css %}
+        {% endblock %} 
+
+        <!-- Javascript -->
+        <script type="text/javascript" src="{{ url_for('static', filename='js/jquery-2.1.4.min.js') }}"></script>
+        <script type="text/javascript" src="{{ url_for('static', filename='bootstrap/js/bootstrap.min.js') }}"></script>
+        
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    </head>
+     
+    <body class="{{body_class}}">
+    
+    {% block body %}
+        
+        {% block header %}
+        <div class="navbar navbar-default" role="navigation">
+
+            <!-- Brand line and mobile nav toggle -->
+            <div class=navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                
+                <a class="navbar-brand" href="{{ url_for('index') }}">Picture Scavenger Hunt</a>
+            </div> <!-- /.navbar-header -->
+
+            <!-- Navigation Links -->
+            <div class="collapse navbar-collapse navbar-ex1-collapse">
+
+                <ul class="nav navbar-nav">
+
+                    <li>
+                        <a href="{{ url_for('upload') }}">Upload</a>
+                    </li>
+
+                    <li>
+                        <a href="{{ url_for('teams') }}">Teams</a>
+                    </li>
+
+                    <li>
+                        <a href="{{ url_for('tasks') }}">Tasks</a>
+                    </li>
+
+                    <li>
+                        <a href="#">Settings</a>
+                    </li>
+                
+                </ul> <!-- /.nav.navbar-nav -->
+
+
+            </div> <!-- /.collapse.navbar-collapse.navbar-ex1-collapse -->
+                    
+        </div> <!-- /.navbar -->
+
+        {% endblock %}
+
+        <div class="container main_body">
+           
+        {% block main_body %}
+        
+        
+        {% endblock %}
+        </div> <!-- /.container.main_body -->
+
+    {% endblock %}
+    
+    
+    {% block extra_js %}
+    
+    {% endblock %} 
+    </body> 
+
+
+</html>
+

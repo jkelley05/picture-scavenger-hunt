@@ -1,7 +1,14 @@
-<h1>Scavenger Hunt</h1>
+{% extends 'base.jinja2.html' %}
 
-{% for i in media %}
+{% block main_body %}
     
-    {{ i.team }}
+    {{ super() }}
+    
+    <h1>Picture Scavenger Hunt</h1>
 
-{% endfor %}
+    {% for i in media %}
+        <h3>{{i.task.name}}</h3> 
+        <h4>{{i.team.name}}</h4> 
+    {% endfor %} 
+
+{% endblock %}
