@@ -7,9 +7,15 @@
     
     <h1>Upload</h1>
     
-    <form action="" method="post" name="upload">
+    <form action="" method="post" name="upload" enctype="multipart/form-data">
         
-
+        {{ form.hidden_tag() }}
+         
+        {{ macros.render_field(form.team) }}        
+        {{ macros.render_field(form.task) }}        
+        
+        {{ macros.render_field(form.media) }}        
+        
         <button class="btn btn-success">Upload</button>
     </form>
     

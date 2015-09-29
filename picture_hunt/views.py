@@ -19,10 +19,28 @@ def index():
     return render_template('index.jinja2.html', media=media)
 
 
-@app.route('/upload')
+@app.route('/upload', methods=['GET', 'POST'])
 def upload():
     
+    media = Media() 
     form = UploadForm()
+
+    if form.validate_on_submit():
+        team = form.team.data
+        task = form.task.data
+        
+        if form.media.data:
+            print("Upload the file")
+         
+        media.team = team
+        media.task = task
+        pp.pprint(media)
+    else:
+        print("Did not validate")
+
+        for fieldName, errorMessages in form.errors.items():
+            for err in errorMessages:
+                print(fieldName, err)
 
     return render_template('upload.jinja2.html', form=form)
 
