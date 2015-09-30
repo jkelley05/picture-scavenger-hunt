@@ -52,7 +52,7 @@ class Team(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     name = db.Column(db.String(256))
     
-    note = db.Text() 
+    note = db.Column(db.String(1024))
 
 
     
@@ -61,4 +61,4 @@ class Task(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     name = db.Column(db.String(256), index = True, unique = True)
     
-    note = db.Text() 
+    note = db.Column(db.String(1024))
