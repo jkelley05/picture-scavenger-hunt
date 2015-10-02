@@ -22,10 +22,12 @@ def index():
     tasks = Task.query.all()
     form.task.choices = [(-1, 'All')] + [ (i.id, i.name) for i in tasks ]
     
+
+    
     if args.get('team') and int(args.get('team')[0]) == -1:
         del args['team']
 
-    if args.get('team') and int(args.get('task')[0]) == -1:
+    if args.get('task') and int(args.get('task')[0]) == -1:
         del args['task']
     
     print(args) 
@@ -59,7 +61,7 @@ def index():
 
     # Search by team or event or missing info
 
-    return render_template('index.jinja2.html', media=media, form=form)
+    return render_template('index.jinja2.html', media=media, form=form) 
 
 
 @app.route('/upload', methods=['GET', 'POST'])
@@ -72,7 +74,7 @@ def upload():
     form.team.choices = [ (i.id, i.name) for i in teams ]
     
     tasks = Task.query.all()
-    form.task.choices = [ (i.id, i.name) for i in tasks ]
+    form.task.choices = [ (i.id, i.name + ": " + i.note) for i in tasks ]
 
 
     if form.validate_on_submit():
@@ -106,6 +108,35 @@ def upload():
     return render_template('upload.jinja2.html', form=form)
 
 
+
+@app.route('/checklist')
+def list_checklist():
+    teams = Team.query.all()
+    
+    return render_template('list_checklist.jinja2.html', teams=teams)
+
+
+@app.route('/checklist/<team>')
+def checklist(team):
+    
+    team = Team.query.get_or_404(team) 
+    checklist = []
+
+    sql = """
+          select 
+            tk.id as task_id,
+            tk.name as task_name,
+            tk.note as task_note,
+            m.id as media
+          from 
+            task tk
+            left outer join media m on m.task_id = tk.id and m.team_id = :team
+          order by
+            task_id
+          """
+    checklist = db.engine.execute(sql, team=team.id)
+
+    return render_template('checklist.jinja2.html', team=team, checklist=checklist)
 
 @app.route('/teams', methods=['GET', 'POST'])
 def teams():

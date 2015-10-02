@@ -1,0 +1,35 @@
+{% extends 'base.jinja2.html' %}
+{% import 'macros.jinja2.html' as macros %}
+
+{% block main_body %}
+    
+    {{ super() }}
+
+    <h1>Team Checklists</h1>
+    
+    <table class="table table-hover">
+    <thead>
+    <tr>
+        <th>Team Name</th>
+        <th>Note</th>
+        <th>Checklist</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for i in teams %}
+        <tr>
+            <td>{{i.name}}</td> 
+            <td>{{i.note}}</td> 
+            <td>
+                <a href="{{url_for('checklist', team=i.id)}}">
+                    Sumbissions ({{i.submissions|length}})
+                </a>
+            </td> 
+        </tr>
+
+
+    {% endfor %} 
+    </tbody>
+    </table>
+
+{% endblock %}

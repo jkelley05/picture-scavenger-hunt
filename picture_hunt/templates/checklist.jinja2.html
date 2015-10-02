@@ -1,0 +1,53 @@
+{% extends 'base.jinja2.html' %}
+{% import 'macros.jinja2.html' as macros %}
+
+{% block main_body %}
+    
+    {{ super() }}
+
+
+    
+    <h1>Checklist for {{team.name}}</h1>
+   
+    {% if team.note %}
+    <div class="well">
+        <p>{{team.note}}</p>
+    </div>
+    {% endif %}
+    
+    <table class="table table-hover">
+    <thead>
+    <tr>
+        <th>Status</th>
+        <th>Task Name</th>
+        <th>Task Description</th>
+        <th>Submission</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for i in checklist %}
+        <tr>
+            <td>
+                {% if i.media %}
+                    <span class="label label-success">Success</span>
+                {% else %}
+                    <span class="label label-warning">Missing</span>
+                {% endif %}
+            </td> 
+            <td>{{i.task_name}}</td> 
+            <td>{{i.task_note}}</td> 
+            <td>
+                {% if i.media %}
+                <a href="{{url_for('media', id_=i.media)}}" target="_blank" class="btn btn-primary btn-xs">
+                    View
+                </a>
+                {% else %}
+                     
+                {% endif %}
+            </td> 
+        </tr>
+    {% endfor %} 
+    </tbody>
+    </table>
+
+{% endblock %}
