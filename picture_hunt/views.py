@@ -181,5 +181,14 @@ def media(id_):
     return render_template('media.jinja2.html', media=media)
 
 
+@app.route('/meida/<id_>/delete', methods=['POST',])
+def media_delete(id_):
 
+    media = Media.query.get_or_404(id_) 
+    
+    db.session.delete(media)
+    db.session.commit()
+    
+    print("Deleted task " + media.uri) 
+    return redirect( url_for('index') )
 

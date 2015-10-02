@@ -1,4 +1,5 @@
 {% extends 'base.jinja2.html' %}
+{% import 'macros.jinja2.html' as macros %}
 
 {% block main_body %}
     
@@ -7,6 +8,11 @@
     
     <h3>Team: {{media.team.name}}</h3>
     <h3>Task: {{media.task.name}}</h3>
+    
+    <div class="delete-media">
+        {% set path=url_for('media_delete', id_=media.id) %}
+        {{ macros.form_button(path, "Delete this submission", "btn btn-danger delete" ) }}
+    </div>
 
 
     <h2>Submission <button class="btn btn-default ph-rotate">Rotate</button></h2>
