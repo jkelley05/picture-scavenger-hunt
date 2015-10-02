@@ -38,10 +38,9 @@ class Media(db.Model):
     
     id = db.Column(db.Integer, primary_key = True)
     
-    # Add datetime in case of multiple submits
-     
-    team = db.Column(db.String(128))
-    task = db.Column(db.String(128))
+    team_id = db.Column(db.Integer, db.ForeignKey('team.id')) 
+    task_id = db.Column(db.Integer, db.ForeignKey('task.id')) 
+    
     type_ = db.Column(db.String(128))
     
     uri = db.Column(db.String(1028)) # url or path  
@@ -50,15 +49,19 @@ class Media(db.Model):
 class Team(db.Model):
     
     id = db.Column(db.Integer, primary_key = True)
-    name = db.Column(db.String(256))
     
+    name = db.Column(db.String(256), index = True, unique = True)
     note = db.Column(db.String(1024))
+
+    submissions = db.relationship('Media', backref='team')
 
 
     
 class Task(db.Model):
     
     id = db.Column(db.Integer, primary_key = True)
-    name = db.Column(db.String(256), index = True, unique = True)
     
+    name = db.Column(db.String(256), index = True, unique = True)
     note = db.Column(db.String(1024))
+    
+    submissions = db.relationship('Media', backref='task')

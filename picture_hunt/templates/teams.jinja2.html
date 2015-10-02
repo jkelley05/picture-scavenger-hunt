@@ -40,6 +40,11 @@
         <tr>
             <td>{{i.name}}</td> 
             <td>{{i.note}}</td> 
+            <td>
+                <a href="{{url_for('index', team=i.id)}}">
+                    Sumbissions ({{i.submissions|length}})
+                </a>
+            </td> 
         </tr>
     {% endfor %} 
     </tbody>

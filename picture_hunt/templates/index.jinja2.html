@@ -1,14 +1,44 @@
 {% extends 'base.jinja2.html' %}
+{% import 'macros.jinja2.html' as macros %}
 
 {% block main_body %}
     
     {{ super() }}
     
-    <h1>Picture Scavenger Hunt</h1>
+    <h1>Picture Scavenger Hunt ({{media|length}})</h1>
+        <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">Search Submissions</h3> 
+        </div>
+        <div class="panel-body">
+            <form action="" method="get" name="tasks">
+                {{ form.hidden_tag() }}
 
-    {% for i in media %}
-        <h3>{{i.task.name}}</h3> 
-        <h4>{{i.team.name}}</h4> 
-    {% endfor %} 
+                {{ macros.render_field(form.team) }}
+
+                {{ macros.render_field(form.task) }}
+
+                <button class="btn btn-success">Search</button>
+            </form>
+        </div> <!-- ./panel-body -->
+    </div> <!-- /.panel.panel-default -->
+
+    <hr />
+
+    <div class="row">
+        {% for i in media %}
+        <div class="col-sm-6 col-md-4">
+            <div class="thumbnail well" style="height:300px">
+                <img src="{{ i.uri }}" style="max-width:200px" />
+                <div class="caption">
+                    <ul>
+                        <li><b>Team: </b>{{i.team.name}}</li>
+                        <li><b>Task: </b>{{i.task.name}}</li>
+                    </ul> 
+                </div> <!-- /.caption -->
+            </div>
+        </div> <!-- ./col-sm-6.col-md-4 -->
+        {% endfor %} 
+    </div>
 
 {% endblock %}

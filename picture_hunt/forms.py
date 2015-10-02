@@ -13,11 +13,15 @@ class TaskForm(Form):
 
 
 class UploadForm(Form):
-    team = SelectField('Team', choices=[('team1', 'Team 1'), ('team2', 'Team 2')] )
-    task = SelectField('Task', choices=[('task1', 'Task 1'), ('task2', 'Task 2')] )
+    team = SelectField('Team',coerce=int, choices=[(None, 'Make a Team first'),] )
+    task = SelectField('Task',coerce=int, choices=[(None, 'Make a Task first'),] )
 
-    media = FileField(u'Media File')
+    media = FileField('Media File', validators=[DataRequired()])
 
+
+class SearchForm(Form):
+    team = SelectField('Team', coerce=int, choices=[(-1, 'Make a Team first'),] )
+    task = SelectField('Task', coerce=int, choices=[(-1, 'Make a Task first'),] )
 
 
 
