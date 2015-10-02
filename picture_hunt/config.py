@@ -1,4 +1,5 @@
 import os
+import socket
 from picture_hunt.secrets import DB_USER, DB_PASSWD
 
 basedir = os.path.abspath(os.path.dirname(__file__))
