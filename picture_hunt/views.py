@@ -111,8 +111,9 @@ def list_checklist():
 
 @app.route('/checklist/<team>')
 def checklist(team):
-    
+    print("In checklist")    
     team = Team.query.get_or_404(team) 
+    print("Got team " + team.name)    
     checklist = []
 
     sql = """
@@ -123,11 +124,13 @@ def checklist(team):
             m.id as media
           from 
             task tk
-            left outer join media m on m.task_id = tk.id and m.team_id = :team
+            left outer join media m on m.task_id = tk.id and m.team_id = {}
           order by
             task_id
-          """
-    checklist = db.engine.execute(sql, team=team.id)
+          """.format(team.id)
+    print("AFter sql var  " )    
+    checklist = db.engine.execute(sql)#, team.id)
+    print("Got results  " )    
 
     return render_template('checklist.jinja2.html', team=team, checklist=checklist)
 
