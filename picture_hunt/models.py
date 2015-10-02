@@ -42,7 +42,6 @@ class Media(db.Model):
     team_id = db.Column(db.Integer, db.ForeignKey('team.id')) 
     task_id = db.Column(db.Integer, db.ForeignKey('task.id')) 
     
-    type_ = db.Column(db.String(128))
     
     uri = db.Column(db.String(1028)) # url or path 
 
@@ -74,6 +73,8 @@ class Team(db.Model):
 class Task(db.Model):
     
     id = db.Column(db.Integer, primary_key = True)
+    
+    points = db.Column(db.Integer) 
     
     name = db.Column(db.String(256), index = True, unique = True)
     note = db.Column(db.String(1024))

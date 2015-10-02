@@ -15,6 +15,8 @@
                 {{ form.hidden_tag() }}
 
                 {{ macros.render_field(form.name) }}
+                
+                {{ macros.render_field(form.points) }}
 
                 {{ macros.render_field(form.note) }}
 
@@ -30,6 +32,7 @@
     <thead>
     <tr>
         <th>Task Name</th>
+        <th>Points</th>
         <th>Note</th>
         <th>Submissions</th>
         <th>Delete</th>
@@ -39,6 +42,7 @@
     {% for i in tasks %}
         <tr>
             <td>{{i.name}}</td> 
+            <td>{{i.points}}</td> 
             <td>{{i.note}}</td> 
             <td>
                 <a href="{{url_for('index', task=i.id)}}">

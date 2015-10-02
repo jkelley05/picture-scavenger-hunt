@@ -158,7 +158,7 @@ def tasks():
     form = TaskForm()
     if form.validate_on_submit():
         
-        task = Task(name=form.name.data, note=form.note.data)
+        task = Task(name=form.name.data, note=form.note.data, points=form.points.data)
         
         db.session.add(task)
         db.session.commit()
@@ -216,5 +216,13 @@ def media_delete(id_):
     db.session.commit()
     
     flash("Deleted submission with " + media.uri) 
+    return redirect( url_for('index') )
+
+
+@app.route('/mms/check')
+def mms_check():
+    messages = []
+
+    flash("Loaded {} messages".format(len(messages))) 
     return redirect( url_for('index') )
 

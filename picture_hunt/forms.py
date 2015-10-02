@@ -1,5 +1,5 @@
 from flask.ext.wtf import Form
-from wtforms import StringField, BooleanField, TextAreaField, SelectField, FileField
+from wtforms import StringField, BooleanField, TextAreaField, SelectField, FileField, IntegerField
 from wtforms.validators import DataRequired, regexp, NumberRange
 
 class TeamForm(Form):
@@ -9,6 +9,7 @@ class TeamForm(Form):
 
 class TaskForm(Form):
     name = StringField('Task', validators=[DataRequired()])
+    points = IntegerField('Points', validators=[DataRequired()])
     note = TextAreaField('Note', validators=[DataRequired()])
 
 
