@@ -1,6 +1,7 @@
 Flask
 Flask-Login
 Flask-SQLAlchemy
+PyMySQL
 Flask-WTF
 Jinja2
 MarkupSafe
