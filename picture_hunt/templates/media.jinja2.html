@@ -1,0 +1,24 @@
+{% extends 'base.jinja2.html' %}
+
+{% block main_body %}
+    
+    {{ super() }}
+    <h1>View Submission</h1>
+
+    <h3>Team: {{media.team.name}}</h3>
+    <h3>Task: {{media.task.name}}</h3>
+
+
+    <h2>Submission</h2>
+    
+    <div id="submission">
+        {% if media.get_type() == "image" %}
+            <img src="{{ media.uri }}" />
+        {% elif media.get_type() == "video" %}
+            <video src="{{ media.uri }}" controls=true style="max-width=100%">
+            </video>
+        {% endif %}
+
+    </div> 
+
+{% endblock %}

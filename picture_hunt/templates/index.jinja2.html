@@ -28,7 +28,7 @@
     <div class="row">
         {% for i in media %}
         <div class="col-sm-6 col-md-4">
-            <div class="thumbnail well" style="height:300px">
+            <a href="{{ url_for('media', id_=i.id) }}" class="thumbnail well" style="height:300px">
                 {% if i.get_type() == "image" %}
                     <img src="{{ i.uri }}" style="max-width:200px;max-height:220px;" />
                 {% elif i.get_type() == "video" %}
@@ -41,7 +41,7 @@
                         <li><b>Task: </b>{{i.task.name}}</li>
                     </ul> 
                 </div> <!-- /.caption -->
-            </div>
+            </a>
         </div> <!-- ./col-sm-6.col-md-4 -->
         {% endfor %} 
     </div>

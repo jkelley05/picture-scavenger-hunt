@@ -146,7 +146,13 @@ def tasks():
 
 
 
-@app.route('/<path:path>')
-def tmp_img(path):
-  # send_static_file will guess the correct MIME type
-  return app.send_static_file(path)
+@app.route('/media/<id_>', methods=['GET',])
+def media(id_):
+    
+    media = Media.query.get_or_404(id_) 
+
+    return render_template('media.jinja2.html', media=media)
+
+
+
+
