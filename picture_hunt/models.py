@@ -42,6 +42,7 @@ class Media(db.Model):
     team_id = db.Column(db.Integer, db.ForeignKey('team.id')) 
     task_id = db.Column(db.Integer, db.ForeignKey('task.id')) 
     
+    type_ = db.Column(db.String(64)) 
     
     uri = db.Column(db.String(1028)) # url or path 
 

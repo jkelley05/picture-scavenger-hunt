@@ -226,7 +226,17 @@ def media_delete(id_):
 @app.route('/mms/check')
 def mms_check():
     messages = []
+    from twilio.rest import TwilioRestClient
+    from picture_hunt.secrets import ACCOUNT_SID, AUTH_TOKEN
+    client = TwilioRestClient(ACCOUNT_SID, AUTH_TOKEN)
 
-    flash("Loaded {} messages".format(len(messages))) 
+    for i in client.messages.list(to=config.PHONE):
+        if i.sid.startswith('MM'):
+            messages.append( i.body )
+            for m in i.media_list.list():
+                print(m.content_type, m.uri)
+                helpers.copy_to_s3(m.uri, m.content_type)
+    
+    flash("Loaded {} new messages".format(len(messages))) 
     return redirect( url_for('index') )
 

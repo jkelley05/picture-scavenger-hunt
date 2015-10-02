@@ -13,3 +13,5 @@ blinker
 itsdangerous
 six
 boto3
+twilio
+requests
