@@ -8,11 +8,13 @@ from flask import render_template, flash, redirect, session, url_for, request, g
 from flask.ext.login import login_user, logout_user, current_user, login_required
 
 import pprint as pp
+from datetime import datetime
 
 @app.route('/')
 def index():
     
     media = []
+    media_query = Media.query
     args = dict(request.args)
     
     form = SearchForm(formdata=request.args)
@@ -36,30 +38,17 @@ def index():
         team_id = request.args.get('team')
         task_id = request.args.get('task')
 
-        media = Media.query.filter(Media.team_id == team_id, Media.task_id == task_id).all() #, Task.id == int(task_id)).all()
+        media = Media.query.filter(Media.team_id == team_id, Media.task_id == task_id)
     
     elif 'team' in args:
         team_id = request.args.get('team')
-        team = Team.query.filter(Team.id == team_id).first()
+        media_query = Media.query.filter(Media.team_id == team_id)
 
-        if team is not None:
-            media = team.submissions
-        else:
-            print("Need to flash an error message")
-            
     elif 'task' in args:
         task_id = request.args.get('task')
-        task = Task.query.get(task_id)
-        if task is not None:
-            media = task.submissions
-        else:
-            print("Need to flash an error message")
-    else:
-        print("No team or task")
-        media = Media.query.all()
-
-
-    # Search by team or event or missing info
+        media_query = Media.query.filter(Media.task_id == task_id)
+    
+    media = media_query.order_by(Media.created.desc()).all()
 
     return render_template('index.jinja2.html', media=media, form=form) 
 
@@ -71,10 +60,10 @@ def upload():
     form = UploadForm()
 
     teams = Team.query.all()
-    form.team.choices = [ (i.id, i.name) for i in teams ]
+    form.team.choices = [(-1, 'Choose One')] + [ (i.id, i.name) for i in teams ]
     
     tasks = Task.query.all()
-    form.task.choices = [ (i.id, i.name + ": " + i.note) for i in tasks ]
+    form.task.choices = [(-1, 'Choose One')] + [ (i.id, i.name + ": " + i.note) for i in tasks ]
 
 
     if form.validate_on_submit():
@@ -87,17 +76,21 @@ def upload():
             print( form.media.name )
 
             file_ = request.files[form.media.name]
-            path = helpers.upload_to_s3(file_) 
-            media.uri = path
-             
-            media.team = Team.query.get(team) 
-            media.task = Task.query.get(task)
-            db.session.add(media)
-            db.session.commit()
-            
-            return redirect( url_for('index') )
-        else:
-            print("flash error for no file selected")
+            if file_.stream: 
+                path = helpers.upload_to_s3(file_) 
+                media.uri = path
+                 
+                media.team = Team.query.get(team) 
+                media.task = Task.query.get(task)
+                media.created = datetime.now()
+                db.session.add(media)
+                db.session.commit()
+                
+                flash("You have uploaded " + media.uri) 
+                return redirect( url_for('index') )
+            else:
+                flash("You must choose a file" + media.uri) 
+                print("flash error for no file selected")
     else:
         print("Did not validate")
 
@@ -150,7 +143,8 @@ def teams():
         db.session.add(team)
         db.session.commit()
         
-        redirect( url_for('teams') )
+        flash("You have added team {}".format(team.name))
+        return redirect( url_for('teams') )
     
     teams = Team.query.all()
     
@@ -169,7 +163,8 @@ def tasks():
         db.session.add(task)
         db.session.commit()
         
-        redirect( url_for('tasks') )
+        flash("You have added task {}".format(task.name))
+        return redirect( url_for('tasks') )
     
     tasks = Task.query.all()
 
@@ -186,7 +181,7 @@ def task_delete(id_):
     db.session.delete(task)
     db.session.commit()
     
-    print("Deleted task " + task.name) 
+    flash("You have delete task {} and all realated submissions".format(task.name))
     return redirect( url_for('tasks') )
 
 
@@ -200,7 +195,7 @@ def team_delete(id_):
     db.session.delete(team)
     db.session.commit()
     
-    print("Deleted team " + team.name) 
+    flash("You have delete team {} and all its submissions".format(team.name))
     return redirect( url_for('teams') )
 
 
@@ -220,6 +215,6 @@ def media_delete(id_):
     db.session.delete(media)
     db.session.commit()
     
-    print("Deleted task " + media.uri) 
+    flash("Deleted submission with " + media.uri) 
     return redirect( url_for('index') )
 

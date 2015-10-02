@@ -45,6 +45,8 @@ class Media(db.Model):
     type_ = db.Column(db.String(128))
     
     uri = db.Column(db.String(1028)) # url or path 
+
+    created = db.Column(db.DateTime)
     
     def get_type(self):
         

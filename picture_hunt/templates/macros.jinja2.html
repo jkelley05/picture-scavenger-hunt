@@ -27,3 +27,19 @@
 {% endmacro %}
 
 
+{% macro flash() %}
+
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-info">
+            <a class="close" data-dismiss="alert" href="#" aria-hidden="true">&times;</a>
+            <strong>{{ message }}</strong>
+        </div>
+        {% endfor %}
+    {% endif %}
+    {% endwith %}
+
+{% endmacro %}
+
+

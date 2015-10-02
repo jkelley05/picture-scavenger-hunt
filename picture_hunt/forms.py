@@ -1,6 +1,6 @@
 from flask.ext.wtf import Form
 from wtforms import StringField, BooleanField, TextAreaField, SelectField, FileField
-from wtforms.validators import DataRequired, regexp
+from wtforms.validators import DataRequired, regexp, NumberRange
 
 class TeamForm(Form):
     name = StringField('Team Name', validators=[DataRequired()])
@@ -13,8 +13,8 @@ class TaskForm(Form):
 
 
 class UploadForm(Form):
-    team = SelectField('Team',coerce=int, choices=[(None, 'Make a Team first'),] )
-    task = SelectField('Task',coerce=int, choices=[(None, 'Make a Task first'),] )
+    team = SelectField('Team',coerce=int, choices=[(None, 'Make a Team first'),],validators=[NumberRange(min=0, message="Please choose a team first")] )
+    task = SelectField('Task',coerce=int, choices=[(None, 'Make a Task first'),] ,validators=[NumberRange(min=0, message="Please choose a team first")])
 
     media = FileField('Media File', validators=[DataRequired()])
 
