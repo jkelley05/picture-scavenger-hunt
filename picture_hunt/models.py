@@ -68,6 +68,13 @@ class Team(db.Model):
 
     submissions = db.relationship('Media', backref='team')
 
+    def points(self):
+        
+        points = 0
+        for i in self.submissions:
+            points += i.task.points
+
+        return points
 
     
 class Task(db.Model):
@@ -80,3 +87,5 @@ class Task(db.Model):
     note = db.Column(db.String(1024))
     
     submissions = db.relationship('Media', backref='task')
+
+
