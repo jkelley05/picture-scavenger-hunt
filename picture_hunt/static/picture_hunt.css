@@ -2,3 +2,8 @@
 {
     transform:rotate(-90deg);
 }
+
+.ph-display
+{
+	max-width: 95%;
+}

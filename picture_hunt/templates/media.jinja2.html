@@ -15,7 +15,7 @@
     <div id="submission">
         
         {% if media.get_type() == "image" %}
-            <img src="{{ media.uri }}" class="ph-display"/>
+            <img src="{{ media.uri }}" class="ph-display" style="max-width=90%;"/>
         {% elif media.get_type() == "video" %}
             <video src="{{ media.uri }}" controls=true  class="ph-display" style="max-width=90%;">
             </video>
