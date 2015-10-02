@@ -4,21 +4,48 @@
     
     {{ super() }}
     <h1>View Submission</h1>
-
+    
     <h3>Team: {{media.team.name}}</h3>
     <h3>Task: {{media.task.name}}</h3>
 
 
-    <h2>Submission</h2>
-    
+    <h2>Submission <button class="btn btn-default ph-rotate">Rotate</button></h2>
+   
+   
     <div id="submission">
+        
         {% if media.get_type() == "image" %}
-            <img src="{{ media.uri }}" />
+            <img src="{{ media.uri }}" class="ph-display"/>
         {% elif media.get_type() == "video" %}
-            <video src="{{ media.uri }}" controls=true style="max-width=100%">
+            <video src="{{ media.uri }}" controls=true  class="ph-display" style="max-width=90%;">
             </video>
         {% endif %}
 
     </div> 
 
 {% endblock %}
+
+{% block extra_js %}
+<script>
+
+$(document).ready(function()
+{
+    $("button.ph-rotate").click(function() { rotate(); });
+});
+
+function rotate()
+{
+
+    if( $("#submission .ph-display").is('.ph-media-rotate') ) 
+    {
+        $("#submission .ph-display").removeClass('ph-media-rotate');
+    }
+    else
+    {
+        $("#submission .ph-display").addClass('ph-media-rotate');
+    }
+
+}
+
+</script>
+{% endblock %} 
