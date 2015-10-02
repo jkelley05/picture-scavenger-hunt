@@ -121,6 +121,7 @@ def checklist(team):
             tk.id as task_id,
             tk.name as task_name,
             tk.note as task_note,
+            tk.points as task_points,
             m.id as media
           from 
             task tk

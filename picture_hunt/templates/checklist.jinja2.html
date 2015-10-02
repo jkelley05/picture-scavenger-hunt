@@ -19,6 +19,7 @@
     <thead>
     <tr>
         <th>Status</th>
+        <th>Points</th>
         <th>Task Name</th>
         <th>Task Description</th>
         <th>Submission</th>
@@ -34,6 +35,7 @@
                     <span class="label label-warning">Missing</span>
                 {% endif %}
             </td> 
+            <td> <b>{{i.task_points}}</b></td> 
             <td>{{i.task_name}}</td> 
             <td>{{i.task_note}}</td> 
             <td>

@@ -19,7 +19,12 @@ if '__main__' == __name__:
         for i in csv_file:
             name = i.get('name', '').strip()
             note = i.get('note').strip()
+            points = i.get('points')
             task = Task(name=name, note=note)
+
+            if points:
+                task.points = int(points)
+
             db.session.add(task)
             print(name, note)
         db.session.commit()
