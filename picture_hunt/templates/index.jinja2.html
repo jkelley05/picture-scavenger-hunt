@@ -32,7 +32,8 @@
                 {% if i.get_type() == "image" %}
                     <img src="{{ i.uri }}" style="max-width:200px;max-height:220px;" />
                 {% elif i.get_type() == "video" %}
-                    <video src="{{ i.uri }}"  controls=true style="max-width:200px;max-height:220px;" />
+                    <video src="{{ i.uri }}"  controls=true style="max-width:200px;max-height:220px;">
+                    </video>
                 {% endif %}
                 <div class="caption">
                     <ul>
