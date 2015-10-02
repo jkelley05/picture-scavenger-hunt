@@ -1,6 +1,7 @@
 from picture_hunt import db, app
 
 import six
+import os
 
 ROLE_USER = 2
 ROLE_ADMIN = 1
@@ -43,7 +44,18 @@ class Media(db.Model):
     
     type_ = db.Column(db.String(128))
     
-    uri = db.Column(db.String(1028)) # url or path  
+    uri = db.Column(db.String(1028)) # url or path 
+    
+    def get_type(self):
+        
+        name = self.uri.split('?')[0]
+        ext = os.path.splitext(name)[1]
+        print(name, ext) 
+        
+        type_ = 'video' if ext in ('.mp4', '.m4v', '.3gp') else 'image'
+        print(name, ext, type_) 
+        
+        return type_ 
     
     
 class Team(db.Model):
