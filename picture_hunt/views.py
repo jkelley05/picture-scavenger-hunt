@@ -86,7 +86,7 @@ def upload():
                 db.session.add(media)
                 db.session.commit()
                 
-                flash("You have uploaded " + media.uri) 
+                flash("You have uploaded a submission") 
                 return redirect( url_for('index') )
             else:
                 flash("You must choose a file" + media.uri) 
