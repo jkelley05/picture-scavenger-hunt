@@ -18,3 +18,12 @@
 {% endmacro %}
 
 
+{% macro form_button(path, text, class='btn', value="none") %}
+
+<form action="{{path}}" method="post" class="ph-form-button">
+    <button type="submit" class="{{class}}" name="action" value="{{value}}">{{text}}</button>
+</form>
+
+{% endmacro %}
+
+

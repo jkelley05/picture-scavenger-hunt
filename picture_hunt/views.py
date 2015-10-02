@@ -145,6 +145,33 @@ def tasks():
     return render_template('tasks.jinja2.html', tasks=tasks, form=form)
 
 
+@app.route('/task/<id_>/delete', methods=['POST',])
+def task_delete(id_):
+
+    task = Task.query.get_or_404(id_) 
+    
+    for i in task.submissions:
+        db.session.delete(i)
+    db.session.delete(task)
+    db.session.commit()
+    
+    print("Deleted task " + task.name) 
+    return redirect( url_for('tasks') )
+
+
+@app.route('/team/<id_>/delete', methods=['POST',])
+def team_delete(id_):
+
+    team = Team.query.get_or_404(id_) 
+    
+    for i in team.submissions:
+        db.session.delete(i)
+    db.session.delete(team)
+    db.session.commit()
+    
+    print("Deleted team " + team.name) 
+    return redirect( url_for('teams') )
+
 
 @app.route('/media/<id_>', methods=['GET',])
 def media(id_):

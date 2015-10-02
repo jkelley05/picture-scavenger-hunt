@@ -45,7 +45,13 @@
                     Sumbissions ({{i.submissions|length}})
                 </a>
             </td> 
+            <td>
+                {% set path=url_for('team_delete', id_=i.id) %}
+                {{ macros.form_button(path, "Delete", "btn btn-danger delete" ) }}
+            </td>
         </tr>
+
+
     {% endfor %} 
     </tbody>
     </table>
