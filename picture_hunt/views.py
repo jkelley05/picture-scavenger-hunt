@@ -126,13 +126,11 @@ def checklist(team):
             m.id as media
           from 
             task tk
-            left outer join media m on m.task_id = tk.id and m.team_id = {}
+            left outer join media m on m.task_id = tk.id and m.team_id = ?
           order by
             task_id
-          """.format(team.id)
-    print("AFter sql var  " )    
-    checklist = db.engine.execute(sql)#, team.id)
-    print("Got results  " )    
+          """
+    checklist = db.engine.execute(sql, team.id)
 
     return render_template('checklist.jinja2.html', team=team, checklist=checklist)
 
