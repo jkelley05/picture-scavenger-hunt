@@ -1,6 +1,9 @@
 from flask.ext.wtf import Form
 from wtforms import StringField, BooleanField, TextAreaField, SelectField, FileField, IntegerField
 from wtforms.validators import DataRequired, regexp, NumberRange
+from wtforms.ext.sqlalchemy.fields import QuerySelectField
+
+from picture_hunt.models import Team, Task
 
 class TeamForm(Form):
     name = StringField('Team Name', validators=[DataRequired()])
@@ -21,9 +24,19 @@ class UploadForm(Form):
 
 
 class SearchForm(Form):
-    team = SelectField('Team', coerce=int, choices=[(-1, 'Make a Team first'),] )
-    task = SelectField('Task', coerce=int, choices=[(-1, 'Make a Task first'),] )
+    team =  QuerySelectField( query_factory=Team.query.all,
+                              get_pk=lambda a: a.id,
+                              get_label=lambda a: a.name,
+                              allow_blank=True,
+                              blank_text="All"
+                            )
 
+    task =  QuerySelectField( query_factory=Task.query.all,
+                              get_pk=lambda a: a.id,
+                              get_label=lambda a: a.name,
+                              allow_blank=True,
+                              blank_text="All"
+                            )
 
 
 

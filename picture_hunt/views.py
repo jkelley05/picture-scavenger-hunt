@@ -10,38 +10,39 @@ from flask.ext.login import login_user, logout_user, current_user, login_require
 import pprint as pp
 from datetime import datetime
 
+from sqlalchemy import and_
+
 @app.route('/')
 def index():
     
     media = []
     media_query = Media.query
     args = dict(request.args)
+
+    team_id = None
+    task_id = None
     
     form = SearchForm(formdata=request.args)
-    teams = Team.query.all()
-    form.team.choices = [(-1, 'All')] + [ (i.id, i.name) for i in teams ]
-  
-    tasks = Task.query.all()
-    form.task.choices = [(-1, 'All')] + [ (i.id, i.name) for i in tasks ]
     
-
-    
-    if args.get('team') and int(args.get('team')[0]) == -1:
+    if args.get('team') and args.get('team')[0] == '__None':
         del args['team']
+    elif args.get('team'):
+        team_id = int(request.args.get('team')) 
 
-    if args.get('task') and int(args.get('task')[0]) == -1:
+    if args.get('task') and args.get('task')[0] == '__None':
         del args['task']
+    elif args.get('task') :
+        task_id = int(request.args.get('task')) 
     
-    print(args) 
-    if 'team' in args and 'task' in args: 
+    print(args)
+    print(team_id, task_id) 
+    if team_id and task_id: 
         print("Both team and task")
-        team_id = request.args.get('team')
-        task_id = request.args.get('task')
 
-        media = Media.query.filter(Media.team_id == team_id, Media.task_id == task_id)
+        media_query = Media.query.filter( (Media.team_id == team_id) &
+                                          (Media.task_id == task_id) )
     
-    elif 'team' in args:
-        team_id = request.args.get('team')
+    elif team_id:
         media_query = Media.query.filter(Media.team_id == team_id)
 
     elif 'task' in args:
